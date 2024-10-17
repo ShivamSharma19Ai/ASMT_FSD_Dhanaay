@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 const AverageRating = () => {
-    const [productId, setProductId] = useState('');
+    const [name, setName] = useState('');
     const [averageRating, setAverageRating] = useState(null);
 
     const fetchAverageRating = () => {
-        fetch(`http://localhost:5000/api/feedback/average/${productId}`)
+        fetch(`http://localhost:5000/api/feedback/average/${name}`)
             .then((response) => response.json())
             .then((data) => setAverageRating(data.averageRating))
             .catch((error) => console.log('Error fetching average rating:', error));
@@ -16,9 +16,9 @@ const AverageRating = () => {
             <h2>Average Rating for Product</h2>
             <input 
                 type="text" 
-                placeholder="Enter Product ID" 
-                value={productId}
-                onChange={(e) => setProductId(e.target.value)} 
+                placeholder="Enter Product Name" 
+                value={name}
+                onChange={(e) => setName(e.target.value)} 
             />
             <button onClick={fetchAverageRating}>Get Average Rating</button>
             {averageRating !== null && (

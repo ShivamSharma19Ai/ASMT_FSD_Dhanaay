@@ -18,7 +18,7 @@ const FeedbackHistory = () => {
             <ul>
                 {feedbackList.map((feedback) => (
                     <li className='feedback-history-li' key={feedback._id}>
-                    Product: {feedback.product ? feedback.product.name : 'Unknown'}, Rating: {feedback.rating}, Comment: {feedback.comment}
+                    Product: {feedback.name}, Rating: {feedback.rating}, Comment: {feedback.comment}
                     </li>
                 ))}
             </ul>

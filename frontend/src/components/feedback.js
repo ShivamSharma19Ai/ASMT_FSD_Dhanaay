@@ -7,6 +7,7 @@ const Feedback = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [message, setMessage] = useState('');
+    const [name,setName]= useState('');
 
     useEffect(() => {
         fetch('http://localhost:5000/api/products')
@@ -18,7 +19,7 @@ const Feedback = () => {
     const submitFeedback = (e) => {
         e.preventDefault();
 
-        const feedback = { product: selectedProduct, rating, comment };
+        const feedback = { product: selectedProduct,name:name, rating, comment };
 
         fetch('http://localhost:5000/api/feedback', {
             method: 'POST',
@@ -33,11 +34,25 @@ const Feedback = () => {
                     setSelectedProduct('');
                     setRating(0);
                     setComment('');
+                    setName('');
                 } else {
                     setMessage('Error submitting feedback');
                 }
             })
             .catch((error) => setMessage('Error: ' + error));
+    };
+
+    const handleProductChange = (e) => {
+        const productId = e.target.value;
+        const selectedProduct = products.find(product => product._id === productId);
+        
+        if (selectedProduct) {
+            setSelectedProduct(productId); // Set selected product ID
+            setName(selectedProduct.name); // Set the name based on selected product
+        } else {
+            setSelectedProduct('');
+            setName('');
+        }
     };
 
     return (
@@ -46,7 +61,7 @@ const Feedback = () => {
             <form onSubmit={submitFeedback} className='Feedback-form'>
                 <label>
                     Product:
-                    <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)}>
+                    <select value={selectedProduct} onChange={handleProductChange}>
                         <option value="">Select a product</option>
                         {products.map((product) => (
                             <option key={product._id} value={product._id}>
